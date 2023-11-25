@@ -36,9 +36,17 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  
 
       - name: Auth GCP
+        id: auth
         uses: 'google-github-actions/auth@v1' # https://github.com/google-github-actions/auth
         with:
           credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
+
+      - name: Login Artifactory Registry
+        uses: docker/login-action@v3  # https://github.com/marketplace/actions/docker-login
+        with:
+          registry: ${{ vars.GOOGLE_ARTIFACT }}
+          username: oauth2accesstoken
+          password: ${{ steps.auth.outputs.access_token }}
 
       - name: Build & Push Image
         run: | 
