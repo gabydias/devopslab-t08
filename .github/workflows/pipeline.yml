@@ -35,10 +35,10 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  
 
-      - name: Docker Login
-        run: | 
-          echo '${{ secrets.GOOGLE_CREDENTIALS }}' > key.json
-          cat key.json | docker login -u _json_key --password-stdin '${{ vars.GOOGLE_ARTIFACT }}'
+      - name: Auth GCP
+        uses: 'google-github-actions/auth@v1' # https://github.com/google-github-actions/auth
+        with:
+          credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
 
       - name: Build & Push Image
         run: | 
