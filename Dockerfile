@@ -11,6 +11,9 @@ WORKDIR /home/myapp
 #Definindo o local onde o binário do gunicorn é instalado
 ENV PATH="/home/myapp/.local/bin:${PATH}"
 
+# Declarando a váriavel do nome do arquivo de configuração do NewRelic
+ENV NEW_RELIC_CONFIG_FILE=newrelic.ini  NEW_RELIC_LICENSE_KEY=licensekey
+
 # Copiar os arquivos da pasta local para dentro do container
 COPY --chown=myapp:nogroup --chmod=644 ./app.py ./requirements.txt /home/myapp
 
@@ -18,4 +21,6 @@ COPY --chown=myapp:nogroup --chmod=644 ./app.py ./requirements.txt /home/myapp
 RUN pip install --user --trusted-host pypi.python.org -r requirements.txt
 
 # Garante que será iniciado a aplicação.
-CMD ["gunicorn", "app:app"]
+CMD ["newrelic-admin", "run-program", "gunicorn", "app:app"]
+
+license_key = 8b456394a409ee0d29a191cf7d8db8b3FFFFNRAL
