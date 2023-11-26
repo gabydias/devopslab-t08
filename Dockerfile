@@ -22,5 +22,3 @@ RUN pip install --user --trusted-host pypi.python.org -r requirements.txt
 
 # Garante que será iniciado a aplicação.
 CMD ["newrelic-admin", "run-program", "gunicorn", "app:app"]
-
-license_key = 8b456394a409ee0d29a191cf7d8db8b3FFFFNRAL
